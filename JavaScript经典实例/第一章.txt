@@ -1,1 +1,127 @@
 第一章 JavaScript不只是简单的构件块
+1.1 Javascript对象,基本类型和字面量直接的区别
+    
+    字面量 
+        包括布尔值,数字,字符串  
+        例如 var a = false,b = 1,c = 'xia xiao dong';
+        
+    基本类型
+        包括 字符串,数值,布尔类型,null和undefined
+        字面量会在调用方法时 js引擎并没有自动转换为基本类型对象,而是模拟这一类型的行为
+        例如 var a = Boolean(false);// Number, String 没有用new创建的对象
+    
+    对象
+        简单理解 就是用new实例化的对象
+        往深了理解 函数是对象等等 此处只是实例解析,不做深究
+    
+1.2 从字符串提取一个列表
+    
+    String.split() 该函数可根据参数规则返回一个列表
+    正则捕获
+
+1.3 检查一个存在的,非空的字符串
+    
+    书中给出的代码是这样的
+        if( typeof unknowVariable === 'String'  && unknowVariable.length > 0 )
+        问题: typeof new String('abc') 的结果是 "object"
+    
+    在其他书中学到一种检测对象类型的更加准确
+        Object.prototype.toString.call(unknowVariable) === "[object String]"
+        
+    
+1.4 插入特殊字符
+    
+    使用转义序列
+    
+1.5 使用新字符串替换模式
+    
+    String.replace()
+    正则
+    
+    具体正则 请参考 <Regular Expressions Cookbook>
+    
+1.6 找到并突出显示一个模式的所有实例
+    
+    使用正则的捕获
+    
+1.7 使用捕获圆括号交换一个字符串中的单词
+    
+    使用正则的圆括号捕获
+    
+1.8 使用命名实体来替代HTML标签
+    
+    str.replace(/</g,'&lt;');
+    str.replace(/>/g,'&gt;');
+    
+    在页面中显示 < 或 > 时,需使用命名实体 &lt; 或 &gt;
+    
+1.9 把一个ISO 8601格式的日期转换为Date对象可接受的一种格式
+    
+    IOS 8601是一种国际标准,API提供的大多是UTC格式
+    
+    var dtstr = "2014-3-04t19:35:32Z";
+    dtstr = dtstr.replace(/\D/g," ");//去除字母,-,:  \D为去除非数字字符
+    var dtcomps = dtstr.split(' ');//注意空格
+    
+    //在基于1的IOS 8601月份和基于0的日期格式之间转换
+    dtcomps[1]--;
+    var convdt = new Date(Date.UTC.apply(null,dtcomps));
+    console.log(convdt.toString());
+    
+1.10 使用带有定时器的函数闭包
+    
+    例子是很普通的 函数内部调用全局函数的变量
+    var x = 0 ;
+    var time = setInterval(function(){
+        x += 5;
+        document.getElementById('xx').style.left = x + 'px';
+    },100);
+    
+    如果不是计算时间之类的,仅仅是页面显示上的改动,建议使用requestAnimationFrame
+    
+1.11 记录消耗时间
+    
+    利用毫秒数来计算,在移动端避免后台运行恢复后数据出错的问题.
+    例子
+        var first = new Date();
+        
+        setTimeout(function(){
+            doEvent();
+        },2500);
+        
+        function doEvent(){
+            var second = new Date();
+            var diff = second - first;
+            console.log(diff);
+        }
+    
+    
+1.12 把十进制数转换为一个十六进制值
+    
+    只有八进制,十六进制和十进制可以直接操作.
+    严格模式下,不支持八进制.
+    Number.toString(16);//范围在2到36之间
+    
+1.13 把表中一列的所有数字加和
+    
+    唯一需要注意的是querySelector()取到的不是list 是nodeList
+    例子:
+        var divs = document.querySelectorAll("div")       
+        Array.prototype.slice.call(divs);  
+    
+1.14 在角度和弧度之间转换
+    
+    弧度/角度 = Math.PI / 180;
+    
+1.15 找到页面元素可容纳的一个圆的半径和圆心
+    
+    关键在 window.getConputedStyle(dom,null); 可以获得dom元素的样式,比如宽高的准确值
+    
+1.16 计算圆弧的长度
+    
+    圆弧的长度 = 半径 * 弧度数
+    
+1.17 使用ES6字符串新增办法而不会丢弃用户
+    
+    最大的意义在于 在不支持新属性的浏览器上 使用shim (垫片,一般是一段js脚本来实现该功能).
+    
