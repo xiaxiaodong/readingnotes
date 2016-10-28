@@ -1,0 +1,62 @@
+第二章 JavaScript数组
+2.1 在数组中搜索
+    
+    ES 5 提供了Array.indexOf()和Array.lastIndexOf(),得到的是位置
+    ES 6 提供了Array.find(),得到的是值.
+    ES 5 和 ES 6的部分方法是使用js来实现的.
+    如果不想用shim,或者考虑数据量比较大的情况,可以使用for循环.使用for循环的时候,一次可以多处理几条数据,这样性能会好一些,但代码会冗余一些
+    
+2.2 用concat()和apply()将一个两维数组扁平化
+    
+    concat的作用是连接数组,也可以借助apply将多维数组合并为一个单维数组.
+    Array.prototype.concat.apply([],[[1,2],[3,4]])
+    
+2.3 删除或替换数组元素
+    
+    Array.shift 从头部去除一个元素
+    Array.pop 从尾部去除一个元素
+    
+    只处理一个元素的话,可以先使用indexOf()获取位置后,修改数组元素
+    delete直接删除该元素,替换的话直接赋值替换掉,处理不好会破坏索引
+    也可以使用 Array.splice(start, deleteCount, value0,value2, ...)  value为插入值,会修正索引
+    
+    
+    
+2.4 提取一个数组的一部分
+    
+    Array.slice(start,end) 返回一个数组的浅拷贝(复制引用)
+    
+2.5 对每个数组元素应用一个函数
+    
+    ES 5提供了繁多的循环数组的方法.最常用的是Array.forEach(函数);
+    
+2.6 使用forEach() and call()遍历querySelectorAll()的结果
+    
+    唯一需要注意的是querySelector()取到的不是list 是nodeList
+    (1) Array.prototype.slice.call(divs);  //可转换
+    
+    (2) [].forEach.call(divs,function()[]);
+    
+2.7 对数组中的每个元素执行一个函数并返回一个新数组
+    
+    ES 5 提供的方法 Array.map
+    
+2.8 创建一个过滤后的数组
+    
+    ES 5 提供的方法 Array.filter
+    
+2.9 验证数组内容
+    
+    Array.every
+    Array.some
+    Array.one
+    
+2.10 使用一个关联数组来存储表单元素名和值
+    
+    就是一个数组 key为元素名,value为值 这里使用的是数组对象
+    
+2.11 使用解构赋值简化代码
+    
+    ES 6新功能
+    var [a,b,c] = [1,2,3];
+    

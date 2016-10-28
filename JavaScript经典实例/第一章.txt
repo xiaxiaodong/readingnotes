@@ -104,7 +104,7 @@
     
 1.13 把表中一列的所有数字加和
     
-    唯一需要注意的是querySelector()取到的不是list 是nodeList
+    唯一需要注意的是querySelector()取到的不是Array 是nodeList
     例子:
         var divs = document.querySelectorAll("div")       
         Array.prototype.slice.call(divs);  
