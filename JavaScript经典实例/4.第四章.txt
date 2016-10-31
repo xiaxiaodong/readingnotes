@@ -1,0 +1,87 @@
+第四章 可扩展的JavaScript对象
+4.1 保持对象成员私有
+    
+    在创建私有数据成员的时候,不使用this关键字
+    funcion x(title,name){
+        this.concat = function (){ return title+":"+name; }
+    }
+    /* 使用时,无论怎么执行或改变this,并不会改变函数的返回值.除非对函数进行重置. */
+    new x('1','2').concat();
+    
+4.2 用原型扩展对象
+    
+    最经常的使用场景是shim.
+    例如:
+        ES 5中String添加了trim方法,但是在不支持的浏览器上无法使用,这时候就需要shim脚本.
+        先检查是否有trim,没有就添加.
+        String.prototype.trim?null:String.prototype.trim = function(){
+            return (this.replace(/^[\s\xAo]+/,'').replace(/[\s\xAo]+$/,''));
+        }
+    
+4.3 继承一个对象的功能
+    
+    Object.creat();//深度复制一个对象
+    并在新的构造函数中, 父级构造器.call(this); 避免局部变量未定义报错
+    
+4.4 通过定义一个新的属性来扩展对象
+    
+    IE9以上支持
+    
+    Object.defineProperty(obj, "key", {
+      /* 访问方法描述符 */
+      get : function(){ return bValue; },
+      set : function(newValue){ bValue = newValue; },
+      
+      /* 
+        访问方法描述符和数据描述符不能共存 
+      */
+      /* 数据描述符 */
+      enumerable: false,    //定义了对象的属性是否可以在 for...in 循环和 Object.keys() 中被枚举。
+      configurable: false,  //表示对象的属性是否可以被删除，以及除 writable 特性外的其他特性是否可以被修改。
+      writable: false,  //设置为false时，表示 non-writable，属性不能被修改。
+      /* 默认值 */
+      value: "static" // 作为默认值
+    });
+    
+4.5 阻止对象可扩展性
+    
+    ES 5 新增方法
+        Object.preventExtensions(obj)
+        让一个对象变的不可扩展，也就是永远不能再添加新的属性。
+        可扩展的对象可以变得不可扩展，但反过来不行。
+    
+4.6 阻止对对象的任何修改
+    
+    Object.freeze(obj)
+    冻结一个对象，冻结指的是不能向这个对象添加新的属性，不能修改其已有属性的值，不能删除已有属性，
+    以及不能修改该对象已有属性的可枚举性、可配置性、可写性。
+    也就是说，这个对象永远是不可变的。该方法返回被冻结的对象。
+    
+4.7 为你的JavaScript对象提供命名空间
+    
+    使用直接对象
+    var a {
+        someFunc:function(){}
+    }
+    有别于单例模式
+    单例模式例子:
+        var singleton = (function(){
+            var instance;
+            function init(){ /* 对instance对象进行初始化 */ };
+            return instance?instance:init();
+        })();
+    
+4.8 用Prototype.bind再次发现 "this"
+    
+    bind可以绑定函数的运行作用域
+    或者
+    this是关键字,在使用时容易产生歧义.
+    把对象的引用赋值给别的变量并给变量起一个有意义的名字,是一个好办法
+    var self = this;
+    
+    
+4.9 将对象方法链化
+    
+    典型使用库 jQuery
+    在函数的末尾主动返回this.
+    
