@@ -2,13 +2,32 @@
 
 7.1 找到完美的库
     
+    主要讲库的查找,依赖搜索引擎,比如谷歌,百度.
+    从代码角度来讲,github是一个不错的资源
+    Micro.js网站 列出了一些很小的库
+    JSDB.io (http://www.javascripting.com/)自称是js库,框架和插件的权威资源
+    
 7.2 使用Modernize.load测试功能
+    
+    https://modernizr.com/
+    主要功能是检测浏览器是否支持某些功能
+    可以借此实现在新浏览器上使用更新的功能
     
 7.3 超越Math对象的能力
     
+    原生js在执行浮点数计算时,是不准确的,比如 0.2-0.1,0.3-0.2
+    Math.js 以浮点数做所有工作
+    
+    Node环境中有一个高级数学模块number
+    
 7.4 求出两个日期之间相差的天数
     
+    日期库 Moment.js
+    http://momentjs.com/
+    
 7.5 使用一个外部库:构建在Jquery框架之上
+    
+    简单介绍了jQuery
     
 7.6 使用一个JQuery插件
     
@@ -16,13 +35,23 @@
     
 7.8 使用工具库Underscore
     
+    Underscore 提供了各种基础功能,例如:集合,数组,函数,工具,链化
+    
+    
 7.9 打包你的代码
     
 7.10 添加对私有数据成员的支持
     
 7.11 简化你的库
     
+    uglify 丑化 去空格
+    
+    uglify2 可以做修改变量名为单个字母(Mangler)
+    http://lisperator.net/uglifyjs/
+    
 7.12 寄存库
+    
+    
     
 7.13 通过cdn服务代码
     

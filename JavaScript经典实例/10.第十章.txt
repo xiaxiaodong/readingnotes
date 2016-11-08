@@ -1,0 +1,122 @@
+第十章 新的ECMAScript标准对象(ES 6)
+
+10.1 在浏览器中使用let
+    
+    不建议使用
+    
+    火狐中,必须给script标签一个版本号
+        <script type="application/javascript;version=1.7" >
+        </script>
+    ie11,chrome,opera中,文档必须是HTML5 <!DOCTYPE html> ,最好使用严格模式
+    safari不支持
+    
+10.2 创建一个非重复值的集合
+    
+    new Set()   --元素不重复( 严格相等 === )的集合
+        .size 长度
+        add 添加元素
+        has 是否拥有该元素
+        delete 删除该元素
+        clear 清除所有
+    
+    使用展开符号可以转换为Array
+    [...new Set().add('apple').add('mile')]
+    
+10.3 用唯一的不同的键创建唯一的键值对
+    
+    new Map()   --键值对一一对应  NaN作为键名时是等于自身的
+        set 
+        get 
+        delete  
+        
+    WeakMap --只接受对象键,弱引用,可以被垃圾收集,避免内存泄漏
+    
+10.4 创建绝对唯一的对象属性值
+    
+    Symbol()
+        创建一个新的 Symbol 类型的值，并且该值不与其它任何值相等
+        可以作为属性,可以作为值
+        第七种数据类型,前六种:undefined,null,boolean,number,string,object
+    
+    Symbol.for(string) 
+        从 Symbol 注册表中返回相应的 Symbol，
+        与上个方法不同的是，Symbol 注册表中的 Symbol 是共享的。
+        也就是说，如果你调用 Symbol.for("cat") 三次，都将返回相同的 Symbol。
+        当不同页面或同一页面不同模块需要共享 Symbol 时，注册表就非常有用。
+    
+10.5 使得遍历任务变简单
+    
+    iterator 迭代器
+    
+    function makeIterator( array ){
+        var nextIndex = 0;
+        return {
+            next:function(){
+                return nextIndex < array.length ? 
+                    {done:false,value:array[nextIndex++]}:
+                    {done:true}
+            }
+        }
+    }
+    
+10.6 创建优雅的结束的函数
+    
+    生成器函数 generator function
+        让函数执行一部分,下次调用时继续执行
+        
+    function log(str){console.log(str);}
+    function* taskRunner(){
+        log(1);
+        yield ;
+        log('after a');
+    }
+    var task = taskRunner();
+    task.next();
+    task.next();
+    
+10.7 使用proxy实现即时对象行为修改
+    
+    proxy 代理
+        proxy对象包装了一个对象,捕获特定的动作,然后根据动作和执行动作的时候,来提供额外的或替换的行为.
+    
+    var handler = {
+        get:function(array,index){
+            if(array[index] === 0 ){
+                return false;
+            }else{
+                return true;
+            }
+        }
+    }
+    var arr = [1,0,2,8,3,0];
+    var a = new Proxy(arr,handler);
+    console.log(a[0]);
+    console.log(a[1]);
+    console.log(a[2]);
+    
+10.8 创建一个真正的类并扩展他(略微借助于traceur)
+    
+    class  extend
+    参考es6的说明,代码较多,故不列出
+    阮一峰的es6在线 http://es6.ruanyifeng.com/ <ECMAScript 6入门>
+    
+10.9 使用promise实现高效异步操作
+    
+    promise 基于一个成功或失败的异步操作来做一些事情
+    
+    var promise = new Promise(function(resolve, reject) {
+      // ... some code
+
+      if (/* 异步操作成功 */){
+        resolve(value);
+      } else {
+        reject(error);
+      }
+    });
+    
+    promise.then(function(value) {
+      // success
+    }, function(error) {
+      // failure
+    });
+    
