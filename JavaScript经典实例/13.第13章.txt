@@ -1,0 +1,72 @@
+第13章 API的乐趣
+
+13.1 通过一个REASTful API访问JSON格式的数据
+    
+    无状态,每个客户端请求都包含服务器提供响应所需的一切,
+    
+    支持一个类似目录的URI结构,并且以某种方式(XML或json) 转换数据格式
+    显示的支持HTTP方法
+        GET 获取资源数据
+        PUT 更新资源
+        DELETE 删除一个资源
+        POST 创建一个资源
+    
+13.2 使用Restify创建一个REASTful API
+    
+    官网: http://restify.com/
+    书中的例子比较旧了,npmjs.org的例子新一点
+    
+    命令行:
+        npm install restify
+        npm install restify-plugins
+        npm install restify-clients
+    
+    Server
+        var restify = require('restify');
+        var plugins = require('restify-plugins');
+         
+         
+        const server = restify.createServer({
+          name: 'myapp',
+          version: '1.0.0'
+        });
+        server.use(plugins.acceptParser(server.acceptable));
+        server.use(plugins.queryParser());
+        server.use(plugins.bodyParser());
+         
+         
+        server.get('/echo/:name', function (req, res, next) {
+          res.send(req.params);
+          return next();
+        });
+         
+        server.listen(8080, function () {
+          console.log('%s listening at %s', server.name, server.url);
+        });
+        
+    Client
+        var assert = require('assert');
+        var clients = require('restify-clients');
+         
+        var client = clients.createJsonClient({
+         
+          url: 'http://localhost:8080',
+          version: '~1.0'
+        });
+         
+        client.get('/echo/mark', function (err, req, res, obj) {
+          assert.ifError(err);
+          console.log('Server returned: %j', obj);
+        });
+        
+    
+13.3 在桌面浏览器中支持类似移动平台的通知
+    
+13.4 在浏览器中加载本地文件
+    
+13.5 使用Web Worker和File API创建一个Mini的E-Pub阅读器
+    
+13.6 探索Google Maps和其他的API
+    
+13.7 从一个Node应用程序访问Twritter API
+    

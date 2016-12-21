@@ -1,0 +1,219 @@
+﻿第11章 Node:服务器上的node
+
+11.1 响应一个简单浏览器请求
+    
+    //加载http模块
+    var http = require('http');
+    
+    //创建http服务器
+    http.createServer( (request,response) => {
+        
+        //解析url require('url').parse('/status?a=1&#c=2&b=1',boolean) 是否解析参数 #号之后的参数不会解析
+        //只解析参数 require('querystring').parse('a=1&#c=2&b=1') 将#号认为普通符号
+        var server_url = require('url').parse(request.url,true);
+        
+        // 内容头部
+        response.writeHead(200,{
+           'content-type':'text/plain' 
+        });
+        
+        var a = server_url.query;
+        
+        // 填充返回内容主体
+        response.end('jsonp('+JSON.stringify(a)+')');
+        
+    }).listen(1234);
+    console.log('server is listening port: 1324');
+    
+11.2 提供格式化的数据(xml)
+    
+    借助 xml-writer
+    https://www.npmjs.com/package/xml-writer
+    cli: npm install xml-writer
+    
+    var XMLWriter = require('xml-writer');
+    
+    xw = new XMLWriter;
+    xw.startDocument();
+    xw.startElement('root');
+    xw.writeAttribute('foo', 'value');
+    xw.text('Some content');
+    xw.endDocument();
+ 
+    console.log(xw.toString());
+    
+11.3 读取和写入文件数据
+    
+    File System
+    
+    
+    var fs = require('fs');
+    
+    //读取文件
+    fs.readFile('s.js',{encoding:'utf-8'},function(err,data){
+        if(err){
+            console.log('cound not read file');
+        }else{
+            console.log(data)
+        }
+    });
+    
+    //写入文件 
+    fs.writeFile('main2.txt','I am going to add this text to a file',function(err){
+        if(err){
+            console.log('cound not read file');
+        }else{
+            console.log('写入成功')
+        }
+    });
+    
+    //添加到文件
+    fs.appendFile('main2.txt','\n添加一条日志 ',function(err){
+        if(err){
+            console.log('cound not read file');
+        }else{
+            console.log('写入成功')
+        }
+    });
+    
+11.4 在Node中使用let和其他的ES6添加
+    
+    使用es6特效的时候,需要在文件开始书写 "use strict"; 来启动严格模式
+    或者指定严格模式执行
+        node --harmony --use-strict test.js
+    
+11.5 使用REPL交互式的尝试Node代码段
+    
+    REPL  read - evalute - print - loop
+    命令行中
+        输入 node 即可进入 
+        输入 .exit 退出
+    
+    进入时可以指定参数
+        var repl = require("repl");
+
+        var options = {
+            prompt:'-- ',
+            useColors:true,
+            ignoreUndefined:true
+        }
+
+        repl.start(options)
+    
+    
+11.6 从终端获取输入
+    
+    使用 readline 模块
+    
+    demo:
+        回答一个问题后退出
+        var readline = require('readline');
+
+        var rl = readline.createInterface({
+           input:process.stdin,
+           output:process.stout
+        });
+
+        rl.question(">>What's your name?",function(answer){
+            console.log('Hello '+answer);
+            rl.close();
+        })
+        
+        计算总和,输入exit后退出
+        var readline = require('readline');
+        var sum = 0;
+
+        var rl = readline.createInterface({
+           input:process.stdin,
+           output:process.stout
+        });
+
+        console.log('hello , please write a number');
+
+        rl.setPrompt('>> ');
+        rl.prompt();
+
+
+        rl.on('line',function( input ){
+            input = input.trim();
+            if( input == 'exit'){
+                rl.close();
+                return 
+            }
+            sum += Number(input);
+            rl.prompt();
+        });
+
+        rl.on('close',function(){
+            console.log('totle is '+sum);
+            process.exit(0);
+        })
+    
+11.7 使用Node定时器并理解Node事件循环
+    
+    timers 模块 无需引用,属于全局对象
+    
+    setTimeout setInterval setImmediate
+    
+11.8 管理回调地狱
+    
+    利用 async 模块
+    
+    github https://github.com/caolan/async
+    
+    node有一些解决这个问题的库 可以谷歌找几个试试
+    
+11.9 用一个Node应用程序访问命令行功能
+    
+    child_process 模块
+    
+    阮一峰的相关日志
+    http://www.ruanyifeng.com/blog/2015/05/command-line-with-node.html
+    
+    demo:
+        执行命令行指令 java -version
+        
+        const exec = require('child_process').exec;
+        const ls = exec('java -version');
+        
+        ls.stdout.on('data', (data) => {
+          console.log(`stdout: ${data}`);
+        });
+
+        ls.stderr.on('data', (data) => {
+          console.log(`stderr: ${data}`);
+        });
+
+        ls.on('close', (code) => {
+          console.log(`child process exited with code ${code}`);
+        });
+    
+11.10 在同一个端口上运行Node和Apache
+    
+11.11 保持在一个Node实例启动并运行
+    
+    通过 forever 软件来实现 应用崩溃后自动重启
+    
+11.12 监控应用程序修改和重启
+    nodemon 软件功能 可以和 forever 一起使用
+    CLI:
+        forever nodemon - -exitcrash serverapp.js
+11.13 用Request进行屏幕抓取
+    
+    request提供了http的支持,可以抓取到静态页面
+    cheerio提供了对html文件的处理功能,使用时类似 jQuery 的方式,易于操作.
+    
+    demo:
+    (获取百度查询页面 的查询按钮的文字)
+    
+    var request = require('request');
+    var cheerio = require('cheerio');
+
+    request('http://www.baidu.com',function(error,response,body){
+        var $ = cheerio.load(body);
+        console.log($('#su').attr('value'));
+    });
+    
+11.14 在Commander的帮助下创建一个命令行工具
+    
+    windows 下不知道如何注解执行文件

@@ -1,0 +1,179 @@
+第12章 模块化和管理JavaScript
+
+JS的模块化主要分为 AMD 和 CommonJS 两种
+    AMD 是 异步的,主要代表 Require.js
+    CommonJS 是 同步的,主要代表 CommonJS  seajs(CMD) 
+    
+12.1 使用脚本加载器来加载脚本
+    
+    功能: 避免页面同步下载js脚本
+    常用库: RequireJS SeaJS Basket.js
+    Basket.js 比较独特的一点是 它从localStorage里面加载
+    源码解析的一篇文章 http://www.cnblogs.com/oadaM92/p/5348793.html
+    
+12.2 以HTML5的方式异步加载脚本
+    
+    在 script 标签上添加 async 或者 defer
+    defer 延迟脚本加载
+    async 异步加载脚本  (IE10 之前不支持)
+    
+12.3 将Javascript转换为AMD和RequireJS
+    
+    参考官方网站  http://requirejs.org/
+    最简单的使用如下:
+        <script data-main='./init.js' src='./require.js' ></script>
+        
+        require.js需要独自下载 并放到相同路径
+        
+        init.js
+            require(['./one','./two'],function(one,two){
+                one.hi();
+                two.hi('world');
+                console.log('And that\'s adll');
+            });
+        
+        one.js
+            define(function(){
+               return {
+                 hi:function(){
+                     console.log('hello  from one');
+                 }  
+               };
+            });
+        
+        two.js
+            define(function(){
+               return {
+                 hi:function(val){
+                     console.log('hello '+val+' from two');
+                 }  
+               };
+            });
+        
+12.4 将RequireJS和jQuery或其他的库一起使用
+    
+    修改上个demo中的 two.js
+    (function(){
+        window.two = this;
+        this.hi = function(val){
+            console.log('hello '+val+' from two');
+        };
+        if( typeof define === 'function' && define.amd ){
+            define('two',[],function(){
+                return two;
+            })
+        }
+    })();
+    
+12.5 加载和使用Dojo模块
+    
+    Dojo是一个古老的 支持跨浏览器运行js的库,
+    该库将不同模块分拆开来,可以使用require来加载模块
+    
+12.6 使用npm安装和维护Node模块
+    
+    npm是node的包管理器
+    安装包的CLI为
+        node install packagename
+    删除包
+        node rm packagename
+    更新包
+        node update packagename
+    
+12.7 通过npm搜索一个具体的Node模块
+    
+    node search packagename
+    第一次会慢,因为需要构建索引
+    packagename支持正则
+    
+12.8 将自己的库转换为Node模块
+    
+    module.exports = function(){
+        return 对象;
+    }
+    
+    或
+    module.exports.hi = function(){
+        console.log('hi');
+    }
+    
+12.9 将自己的代码应用到所有环境
+    
+    (function(global){
+    
+        var bbArray = {};
+        bbArray.concatArray = function(){};
+        bbArray.splitArray = function(){};
+        
+        if( typeof module != 'undefined' && module.exports ){
+            module.exports = bbArray;
+        }else if( typeof define === 'function' && define.amd ){
+            define('bbArray',[],function(){
+                return bbArray;
+            })
+        }else{
+            global.bbArray = bbArray;
+        }
+        
+    }(this));
+    
+12.10 创建一个可安装的Node模块
+    
+    package.json文件是将一个node模块打包以便于本地安装或者上传供npm管理的关键
+    package.json 编写
+        结构:
+            {
+                name:'',
+                version:''
+            }
+        字段解释
+            description:说明该模块是什么,以及做什么
+            main:应用程序的入口模块
+            author:模块的作者
+            keywords: 数组 模块的关键词
+            repository:代码放置的位置
+                {
+                    type:'git',
+                    url: github的仓库地址
+                }
+            engines: 和模块使用的node版本
+            bug:记录bug的地方
+            licenses: 模块的许可证
+            dependencies:任何模块依赖性
+            directories: 模块的目录结构的一个哈希描述
+            script:在模块生命周期中运行的对象命令的一个哈希
+    
+    npm init 指令可以帮助完成文件的编写
+    npm install . 测试是否一切能正常工作
+    没有错误,可以将文件打包为一个gzip的压缩包.并注册一个npm用户:
+        npm add-user
+    发布
+        npm publish ./
+        
+    记得在顶层目录 使用Markdown语法 建立 README文件 来说明你的模块.
+    
+12.11 使用Bower打包和管理客户端依赖性
+    
+    bower是保持你的脚本和其他的依赖性收集到一起并及时更新的一种方式.
+    
+12.12 用Browserify编译Node.js模块以便在浏览器中使用
+    
+    browserify可以把node模块编译为浏览器可以访问的代码
+    CLI:
+        将querystring打包为浏览器可运行的 bundle.js 文件
+        browserify -r querystring > bundle.js
+    
+12.13 对你的Node模块进行单元测试
+    
+    使用测试模块 mocha 
+    修改 package.json
+        "script":{
+            "test":"node_modules/mocha/bin/mocha test"
+        }
+    CLI:
+        npm test
+    
+12.14 用Grunt运行任务
+    
+    grunt 或 gulp
+    

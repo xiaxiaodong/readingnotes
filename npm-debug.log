@@ -1,0 +1,98 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'n',
+1 verbose cli   '-g' ]
+2 info using npm@3.10.9
+3 info using node@v6.4.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readGlobalPackageData
+7 silly fetchPackageMetaData n
+8 silly fetchNamedPackageData n
+9 silly mapToRegistry name n
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry data Result {
+12 silly mapToRegistry   raw: 'n',
+12 silly mapToRegistry   scope: null,
+12 silly mapToRegistry   escapedName: 'n',
+12 silly mapToRegistry   name: 'n',
+12 silly mapToRegistry   rawSpec: '',
+12 silly mapToRegistry   spec: 'latest',
+12 silly mapToRegistry   type: 'tag' }
+13 silly mapToRegistry uri https://registry.npmjs.org/n
+14 verbose request uri https://registry.npmjs.org/n
+15 verbose request no auth needed
+16 info attempt registry request try #1 at 16:08:05
+17 verbose request id 34dc4ccbfde871f5
+18 verbose etag "DP7CTC71YMYL7LKX3FWW8SMBH"
+19 http request GET https://registry.npmjs.org/n
+20 http 304 https://registry.npmjs.org/n
+21 verbose headers { date: 'Tue, 08 Nov 2016 08:08:31 GMT',
+21 verbose headers   via: '1.1 varnish',
+21 verbose headers   'cache-control': 'max-age=300',
+21 verbose headers   etag: '"DP7CTC71YMYL7LKX3FWW8SMBH"',
+21 verbose headers   age: '266',
+21 verbose headers   connection: 'keep-alive',
+21 verbose headers   'x-served-by': 'cache-itm7423-ITM',
+21 verbose headers   'x-cache': 'HIT',
+21 verbose headers   'x-cache-hits': '2',
+21 verbose headers   'x-timer': 'S1478592511.942508,VS0,VE0',
+21 verbose headers   vary: 'Accept-Encoding' }
+22 silly get cb [ 304,
+22 silly get   { date: 'Tue, 08 Nov 2016 08:08:31 GMT',
+22 silly get     via: '1.1 varnish',
+22 silly get     'cache-control': 'max-age=300',
+22 silly get     etag: '"DP7CTC71YMYL7LKX3FWW8SMBH"',
+22 silly get     age: '266',
+22 silly get     connection: 'keep-alive',
+22 silly get     'x-served-by': 'cache-itm7423-ITM',
+22 silly get     'x-cache': 'HIT',
+22 silly get     'x-cache-hits': '2',
+22 silly get     'x-timer': 'S1478592511.942508,VS0,VE0',
+22 silly get     vary: 'Accept-Encoding' } ]
+23 verbose etag https://registry.npmjs.org/n from cache
+24 verbose get saving n to C:\Users\Administrator\AppData\Roaming\npm-cache\registry.npmjs.org\n\.cache.json
+25 verbose correctMkdir C:\Users\Administrator\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+26 silly install normalizeTree
+27 silly loadCurrentTree Finishing
+28 silly loadIdealTree Starting
+29 silly install loadIdealTree
+30 silly cloneCurrentTree Starting
+31 silly install cloneCurrentTreeToIdealTree
+32 silly cloneCurrentTree Finishing
+33 silly loadShrinkwrap Starting
+34 silly install loadShrinkwrap
+35 silly loadShrinkwrap Finishing
+36 silly loadAllDepsIntoIdealTree Starting
+37 silly install loadAllDepsIntoIdealTree
+38 silly rollbackFailedOptional Starting
+39 silly rollbackFailedOptional Finishing
+40 silly runTopLevelLifecycles Finishing
+41 silly install printInstalled
+42 verbose stack Error: Unsupported platform for n@2.1.4: wanted {"name":"n","description":"Interactively Manage All Your Node Versions","version":"2.1.4","author":{"name":"TJ Holowaychuk","email":"tj@vision-media.ca"},"homepage":"https://github.com/tj/n","bugs":{"url":"https://github.com/tj/n/issues"},"contributors":[{"name":"Travis Webb","email":"me@traviswebb.com","url":"tjw.io"},{"name":"Nimit Kalra","email":"me@nimit.io","url":"http://nimit.io"},{"name":"Troy Connor","email":"troy0820@gmail.com","url":"https://github.com/troy0820"}],"keywords":["nvm","node","version","manager","switcher","node","binary","env"],"bin":{"n":"./bin/n"},"repository":{"type":"git","url":"git://github.com/tj/n.git"},"preferGlobal":true,"os":["!win32"],"engines":{"node":"*"},"license":"MIT","gitHead":"ff9ba303d972069903c0f951ece43f47adce24e8","_id":"n@2.1.4","scripts":{},"_shasum":"7546bc467a120cc96718f2716cd86c43290f94c5","_from":"n","_npmVersion":"3.10.3","_nodeVersion":"6.3.1","_npmUser":{"name":"qw3rtman","email":"me@nimit.io"},"dist":{"shasum":"7546bc467a120cc96718f2716cd86c43290f94c5","tarball":"https://registry.npmjs.org/n/-/n-2.1.4.tgz"},"maintainers":[{"name":"bat","email":"ben@benatkin.com"},{"name":"qw3rtman","email":"nimit@nimitkalra.com"},{"name":"tedgaydos","email":"tedgaydos@gmail.com"},{"name":"tjholowaychuk","email":"tj@vision-media.ca"},{"name":"tjwebb","email":"me@traviswebb.com"},{"name":"troy0820","email":"troy.connor@yahoo.com"}],"_npmOperationalInternal":{"host":"packages-16-east.internal.npmjs.com","tmp":"tmp/n-2.1.4.tgz_1470600124670_0.21058935346081853"},"directories":{},"_resolved":"https://registry.npmjs.org/n/-/n-2.1.4.tgz","_requested":{"raw":"n","scope":null,"escapedName":"n","name":"n","rawSpec":"","spec":"latest","type":"tag"},"_spec":"n","_where":"E:\\$git\\readingnotes","_args":[[{"raw":"n","scope":null,"escapedName":"n","name":"n","rawSpec":"","spec":"latest","type":"tag"},"E:\\$git\\readingnotes"]],"readme":"ERROR: No README data found!"} (current: {"os":"win32","cpu":"x64"})
+42 verbose stack     at checkPlatform (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\npm-install-checks\index.js:45:14)
+42 verbose stack     at thenWarnEngineIssues (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\lib\install\validate-args.js:41:5)
+42 verbose stack     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\iferr\index.js:13:50
+42 verbose stack     at checkEngine (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\npm-install-checks\index.js:24:10)
+42 verbose stack     at module.exports.isInstallable (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\lib\install\validate-args.js:38:3)
+42 verbose stack     at Array.<anonymous> (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
+42 verbose stack     at LOOP (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\chain.js:15:14)
+42 verbose stack     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\chain.js:18:7
+42 verbose stack     at checkSelf (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\lib\install\validate-args.js:46:72)
+42 verbose stack     at Array.<anonymous> (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
+43 verbose pkgid n@2.1.4
+44 verbose cwd E:\$git\readingnotes
+45 error Windows_NT 6.1.7601
+46 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "install" "n" "-g"
+47 error node v6.4.0
+48 error npm  v3.10.9
+49 error code EBADPLATFORM
+50 error notsup Unsupported platform for n@2.1.4: wanted {"os":"!win32","arch":"any"} (current: {"os":"win32","arch":"x64"})
+51 error notsup Valid OS:    !win32
+51 error notsup Valid Arch:  any
+51 error notsup Actual OS:   win32
+51 error notsup Actual Arch: x64
+52 verbose exit [ 1, true ]
