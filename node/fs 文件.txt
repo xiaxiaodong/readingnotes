@@ -1,0 +1,66 @@
+文件系统 fs
+
+node的fs同时提供了同步和异步的操作api,同步的api会等待回调执行后,继续执行js脚本,而异步则需要委托给libuv做相应的处理后,来执行回调.
+
+文件名的相对路径 是相对于 process.cwd()
+
+由于提供api很多,只列出比较常用的api:
+    watch   监听文件
+    unwatchFile 取消监听文件
+    appendFile  在文件后添加
+    open    打开文件
+    close   关闭文件
+    rename  重命名文件
+    copyFile  复制文件
+    createReadStream  创建读取流
+    createWriteStream 创建写入流
+    mkdir   创建文件夹
+    rmdir   删除文件夹
+
+事件:
+  watch:
+      changge
+      rename    -->文件出现或消失是会触发
+      error
+  stream:
+      open
+      close
+  stats:
+      时间值
+
+读写文件的 flags 值 
+
+lib\internal\fs.js
+
+function stringToFlags(flag) {
+  if (typeof flag === 'number') {
+    return flag;
+  }
+
+  switch (flag) {
+    case 'r' : return O_RDONLY;
+    case 'rs' : // Fall through.
+    case 'sr' : return O_RDONLY | O_SYNC;
+    case 'r+' : return O_RDWR;
+    case 'rs+' : // Fall through.
+    case 'sr+' : return O_RDWR | O_SYNC;
+
+    case 'w' : return O_TRUNC | O_CREAT | O_WRONLY;
+    case 'wx' : // Fall through.
+    case 'xw' : return O_TRUNC | O_CREAT | O_WRONLY | O_EXCL;
+
+    case 'w+' : return O_TRUNC | O_CREAT | O_RDWR;
+    case 'wx+': // Fall through.
+    case 'xw+': return O_TRUNC | O_CREAT | O_RDWR | O_EXCL;
+
+    case 'a' : return O_APPEND | O_CREAT | O_WRONLY;
+    case 'ax' : // Fall through.
+    case 'xa' : return O_APPEND | O_CREAT | O_WRONLY | O_EXCL;
+
+    case 'a+' : return O_APPEND | O_CREAT | O_RDWR;
+    case 'ax+': // Fall through.
+    case 'xa+': return O_APPEND | O_CREAT | O_RDWR | O_EXCL;
+  }
+
+  throw new Error('Unknown file open flag: ' + flag);
+}

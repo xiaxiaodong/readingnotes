@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas-使用视频当前帧作为图片来源</title>
+    <style>
+    video {
+        /*display:none;*/
+        height: 100px;
+    }
+    </style>
+</head>
+
+<body>
+    <video id="video" autoplay="" controls src="1.mp4"></video>
+    <canvas id="canvas" width="640" height="480">
+        Your browser doesn't appear to support the HTML5 <code>&lt;canvas&gt;</code> element.
+    </canvas>
+    
+</body>
+<script>
+var video = document.getElementById('video'),
+    canvas = document.getElementById('canvas'),
+    ctx = canvas.getContext('2d');
+
+video.onplay = function(){
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    draw()
+}
+
+function draw(){
+    ctx.drawImage(video,0,0)
+    requestAnimationFrame(draw)
+}
+
+
+</script>
+
+</html>

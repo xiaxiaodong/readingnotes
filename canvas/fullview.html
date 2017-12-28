@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas 全景图片左右循环移动</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" width="640" height="198">
+        换个新一点的浏览器吧,这个浏览器不支持 <code>&lt;canvas&gt;</code> 元素.
+    </canvas>
+</body>
+<script>
+var img = new Image(),
+    canvas = document.getElementById('canvas'),
+    ctx = canvas.getContext('2d'),
+    scale = 1,
+    current_x = 0,
+    img_length;
+
+img.src = 'fullview.jpg';
+
+img.onload = function() {
+    // 全景图片的特点是 宽度比较长,高度比较短
+    if( img.naturalHeight < canvas.height ){
+        scale = canvas.height/img.naturalHeight;
+    }
+    img_length = scale*img.naturalWidth
+    //Set Refresh Rate
+    return requestAnimationFrame(draw);
+}
+
+function draw() {
+    //Clear Canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if( Math.abs(current_x) >= img_length ){
+        current_x = 0;
+    }
+    //draw first image
+    ctx.drawImage(img, current_x, 0, img_length,canvas.height);
+    //draw second image
+    ctx.drawImage(img, current_x+img_length, 0, img_length,canvas.height);
+    //amount to move
+    current_x -= 1;
+    requestAnimationFrame(draw)
+}
+
+</script>
+
+</html>

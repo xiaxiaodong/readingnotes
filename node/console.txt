@@ -1,0 +1,46 @@
+控制台
+
+console 模块提供了一个简单的调试控制台
+
+该模块导出了两个特定的组件：
+
+    一个 Console 类，包含 console.log() 、 console.error() 和 console.warn() 等方法，可以被用于写入到任何 Node.js 流。
+    一个全局的 console 实例，可被用于写入到 process.stdout 和 process.stderr。全局的 console使用时无需调用require('console')。
+
+注意：全局的 console 对象的方法既不总是同步的（如浏览器中类似的 API），也不总是异步的（如其他 Node.js 流）。
+
+全局的 console 是一个特殊的 Console 实例，它的输出会发送到 process.stdout 和 process.stderr。 相当于调用：
+    new Console(process.stdout, process.stderr);
+
+合适使用的api
+    
+    打印日志
+        new Console( out, err )  out和err为文件流
+        demo:
+            const output = fs.createWriteStream('./stdout.log');
+            const errorOutput = fs.createWriteStream('./stderr.log');
+            // 自定义的简单记录器
+            const logger = new Console(output, errorOutput);
+
+        assert(value)  断言,判断value是否为真,为false时,导致抛出 AssertionError。
+
+        clear()     清空ttl的输出
+        dir(obj)    打出对象的详细信息
+
+        log     打印日志,输出到out
+        info    log的复制
+
+        error   打印日志,输出到err
+        warn    error的复制
+
+        group   打印数组
+        trace   打印字符串 'Trace :' 到 err ，并通过 util.format() 格式化消息与堆栈跟踪在代码中的当前位置。
+
+    计数器
+        count(label)    开始以label为参数名开始计数,从1开始,底层是map实现
+        countReset(label)   计数器重置
+
+    计时器
+        time(label)     开始计时
+        timeEnd(label)  停止之前通过调用 console.time() 启动的定时器，并打印结果到 stdout： v6.0之后 不再被支持
+

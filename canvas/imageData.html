@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>canvas-ImageData-练习</title>
+    <style>
+    #color,
+    #color_text {
+        height: 20px;
+    }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas">
+        换个新一点的浏览器吧,这个浏览器不支持 <code>&lt;canvas&gt;</code> 元素.
+    </canvas>
+    <canvas id="glass" width="200" height="200">
+        换个新一点的浏览器吧,这个浏览器不支持 <code>&lt;canvas&gt;</code> 元素.
+    </canvas>
+    <div id="color"></div>
+    <div id="color_text"></div>
+    <input id="select" type="checkbox" checked />
+    <label for="select">锯齿优化</label>
+    <button id="reset">重置</button>
+    <button id="invert">反相图</button>
+    <button id="grayscale">灰度图</button>
+    <button id="save">保存图片 base64 到粘贴板</button>
+</body>
+<script>
+var img = new Image();
+// canvas 使用的图片只能是 本域名下 或者是有源站证书（没有设置 Access-Control-Allow-Origin: HTTP头）
+// 其他情况下 图片可以使用在canvas中渲染 却不能获取其imageData
+// img.crossorigin = 'anonymous';
+// img.crossorigin = 'use-credentials';
+
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+var g_ctx = document.getElementById('glass').getContext('2d');
+var color = document.getElementById('color');
+var color_text = document.getElementById('color_text');
+img.onload = function() {
+    reset()
+};
+img.onerror = function(e) {
+        color_text.textContent = '图片请求出错'
+    }
+    // img.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+img.src = 'th.jpg';
+
+function reset() {
+    // 使canvas的大小为图片的原始大小 避免占用过大空间或图片展示不完整
+    canvas.width = img.naturalWidth
+    canvas.height = img.naturalHeight
+    ctx.drawImage(img, 0, 0);
+    canvas.addEventListener('mousemove', pick);
+}
+
+document.getElementById('reset').addEventListener('click', reset)
+
+/*
+ * effect :  获取canvas所在像素点的颜色值,放大鼠标所在位置
+ */
+function pick(event) {
+    // canvas位于左上角 免去了计算canvas位置相对于页面可视窗口偏移量的计算
+    var x = event.layerX;
+    var y = event.layerY;
+    var pixel = ctx.getImageData(x, y, 1, 1);
+    var data = pixel.data;
+    var rgba = 'rgba(' + data[0] + ',' + data[1] +
+        ',' + data[2] + ',' + (data[3] / 255) + ')';
+    color.style.background = rgba;
+    color_text.textContent = rgba;
+    g_ctx.clearRect(0, 0, 200, 200);
+
+    var select = document.getElementById('select')
+    g_ctx.imageSmoothingEnabled = select.checked;
+    g_ctx.mozImageSmoothingEnabled = select.checked;
+    g_ctx.webkitImageSmoothingEnabled = select.checked;
+    g_ctx.msImageSmoothingEnabled = select.checked;
+
+    g_ctx.drawImage(canvas, x - 5, y - 5, 10, 10, 0, 0, 200, 200)
+}
+
+function invert() {
+    var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
+        i_data = imageData.data,
+        length = i_data.length;
+    for (var i = 0; i < length; i += 4) {
+        i_data[i] = 255 - i_data[i]
+        i_data[i + 1] = 255 - i_data[i + 1]
+        i_data[i + 2] = 255 - i_data[i + 2]
+    }
+    ctx.putImageData(imageData, 0, 0)
+}
+document.getElementById('invert').addEventListener('click', invert)
+
+function grayscale() {
+    var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
+        i_data = imageData.data,
+        length = i_data.length;
+    for (var i = 0; i < length; i += 4) {
+        var average = Math.round((i_data[i] + i_data[i + 1] + i_data[i + 2]) / 3)
+        i_data[i] = average
+        i_data[i + 1] = average
+        i_data[i + 2] = average
+    }
+    ctx.putImageData(imageData, 0, 0)
+}
+document.getElementById('grayscale').addEventListener('click', grayscale)
+document.getElementById('save').addEventListener('click', function() {
+    var textarea = document.createElement('textarea')
+    textarea.textContent = canvas.toDataURL('image/png');
+    // document.body.append(textarea)
+    textarea.select()
+    textarea.focus()
+    document.execCommand('copy')
+})
+</script>
+
+</html>

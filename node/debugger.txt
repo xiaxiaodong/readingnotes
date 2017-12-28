@@ -1,0 +1,77 @@
+debugger 调试器
+
+Node.js 包含一个进程外的调试工具，可以通过V8检查器与内置的调试客户端访问。
+
+使用方式:
+    启动node程序时 添加启动参数 inspect ( debug参数功能相同,已废弃 )
+
+    node  inspect  [script.js | -e "script" | <host>:<port>]
+
+    举例:
+        node inspect test.js 
+
+    node源码中 lib/internal/bootstrap_node.js 脚本中的startup函数中,建议使用 --inspect-brk 在chrome浏览器中调试
+    源码如下:
+        // Handle `--debug*` deprecation and invalidation
+        if (process._invalidDebug) {
+          process.emitWarning(
+            '`node --debug` and `node --debug-brk` are invalid. ' +
+            'Please use `node --inspect` or `node --inspect-brk` instead.',
+            'DeprecationWarning', 'DEP0062', startup, true);
+          process.exit(9);
+        } else if (process._deprecatedDebugBrk) {
+          process.emitWarning(
+            '`node --inspect --debug-brk` is deprecated. ' +
+            'Please use `node --inspect-brk` instead.',
+            'DeprecationWarning', 'DEP0062', startup, true);
+        }
+
+在脚本的源代码中插入debugger;语句，则会在代码的那个位置启用一个断点：
+
+debug指令:
+    
+    调试指令:
+        c   继续执行
+        n   下一步
+        s   跳进函数
+        o   跳出函数
+        pause   暂停运行代码
+
+        repl   打开调试器的 repl，用于在所调试的脚本的上下文中进行执行
+        exec   在所调试的脚本的上下文中执行一个表达式
+        watch(expr)    添加表达式到监视列表
+        unwatch(expr)  从监视列表移除表达式
+        watchers   列出所有监视器和它们的值（每个断点会自动列出）
+
+        backtrace, bt  打印当前执行框架的回溯   上下文的调用关系
+        list(5)    显示实际代码 前后各5行
+
+    执行控制:
+        run   运行脚本（调试器开始时自动运行）
+        restart    重新启动脚本
+        kill   终止脚本
+
+    信息:
+        scripts    列出所有已加载的脚本
+        version    显示 V8 引擎的版本号
+
+断点:
+    setBreakpoint(), sb()  在当前行设置断点
+    setBreakpoint(line), sb(line)  在指定行设置断点
+    setBreakpoint('fn()'), sb(...) -在函数体的第一条语句设置断点
+    setBreakpoint('script.js', 1), sb(...) 在 script.js 的第 1 行设置断点
+    clearBreakpoint('script.js', 1), cb(...)   清除 script.js 第 1 行的断点
+
+高级用法
+    V8 的检查器集成可以附加 Chrome 的开发者工具到 Node.js 实例以用于调试和性能分析。
+    使用的基础是chrome开发工具自带的谷歌调试协议 ( Chrome Debugging Protocol  详情请参考 https://chromedevtools.github.io/devtools-protocol/ ) 
+    node --inspect=9229 test.js
+        该指令会启动一个websocket 监听端口 9229 
+
+    chrome浏览器启动时 添加监听端口
+        chrome.exe --remote-debugging-port=9229  9229 为监听端口
+
+    在浏览器访问网页 127.0.0.1:9229 即可开始调试
+
+
+    

@@ -1,0 +1,34 @@
+定时器
+
+timer 模块暴露了一个全局的 API，用于在某个未来时间段调用调度函数。
+
+Timeout
+    setTimeout
+
+    setInterval
+
+    ref
+        只要 Timeout 处于活动状态就要求Node.js事件循环不要退出
+        默认不需要使用
+
+    unref
+        不要求Node.js事件循环保持活动
+
+预定定时器
+    Node.js 中的计时器是一种会在一段时间后调用给定的函数的内部构造。 定时器函数何时被调用取决于用来创建定时器的方法以及 Node.js 事件循环正在做的其他工作。
+
+API
+    setImmediate( callback , [,...args] )
+        args是传给 callback 的参数
+        callback函数会在下一次事件循环中被触发
+    clearImmediate
+
+    setInterval(  callback , delay, [,...args]  )
+        当 delay 大于 2147483647 或小于 1 时，delay 会被设为 1。
+        事件委托给libuv进行管理,当js文件中的同步代码执行完成之后,node环境会运行事件循环检查异步事件的状态,满足条件的会触发对应对象的event事件来 调用js回调函数
+    clearInterval
+
+    setTimeout
+        同上,唯一区别是只执行一次
+    clearTimeout
+

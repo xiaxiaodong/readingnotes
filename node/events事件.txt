@@ -1,0 +1,58 @@
+events 事件
+
+监听事件 
+    event.on()
+触发事件
+    event.emit()
+
+事件:
+    名称一般建议为 驼峰式写法
+    默认最大监听数量为 10,可通过 setMaxListeners 修改
+    newListener
+    removeListener
+
+属性
+    defaultMaxListeners     最大默认监听数
+
+API:
+    addListener( eventName, listener )  添加监听 
+    on          同上
+    
+    once        单次监听
+    prependListener     添加到监听数组的头部
+    prependOnceListener 
+
+    eventNames  所有监听事件的数组
+    getMAxListeners     获取最大默认监听数
+    listeners( eventName )  监听某事件的监听器副本
+    listenerCount( eventName )  监听某事件的监听器的数量
+
+    emit        触发事件
+
+    removeAllListeners( eventName )  删除所有该事件的监听
+    removeListener( eventName , listener )  删除指定监听
+
+    setMaxListeners     设置最大监听数量
+
+
+
+事件轮询 Event Loop
+
+Node.js的运行机制如下。
+    （1）V8引擎解析JavaScript脚本。
+    （2）解析后的代码，调用Node API。
+    （3）libuv库负责Node API的执行。它将不同的任务分配给不同的线程，形成一个Event Loop（事件循环），以异步的方式将任务的执行结果返回给V8引擎。
+    （4）V8引擎再将结果返回给用户。
+
+process.nextTick
+    在当前执行栈的最后 ,执行回调函数,在下一次Event Loop之前
+    可以理解为在所有异步任务之前
+
+setImmediate
+    在当前的 任务队列的最后添加事件,在下一次Event Loop时执行
+
+setTimeout / setInterval
+    是libuv中触发的
+
+setImmediate与setTimeout
+    不确定两者谁先执行,理论上来讲同一个循环中是 setImmediate与setTimeout 比较优先,但实际测试中也不确定

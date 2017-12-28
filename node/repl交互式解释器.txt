@@ -1,0 +1,70 @@
+repl 交互式解释器
+
+平时,我们在命令行中输入 node 之后,就会进入一个 repl
+repl 默认的输入输出 是当前 process.stdin 和 process.stdout
+
+命令:
+    .break
+    .clear
+    .exit
+    .help
+    .save
+    .load
+    .editor
+
+特殊摁键组合
+    Ctrl + C  一次相当于.break,两次相当于.exit
+    Ctrl + D 退出 相当于 .exit
+    tab     显示全局和本地作用域的变量
+
+特殊摁键
+    _  最近一次解释的表达式的记过
+
+
+事件:
+    exit    退出
+    reset   .clear触发
+
+API:
+    start( options )  开启server,只能通过这个方法创建和启动server,可启动多个
+                    中文API可参考 http://nodejs.cn/api/repl.html#repl_design_and_features
+    defineCommand( keyword,cmd )    可自定义指令
+    displayPrompt()   显示提示符
+
+demo:
+
+'use strict';
+
+process.title = 'xiaodong' 
+const fs = require('fs'); 
+const repl = require('repl');
+const msg = 'hello';
+var output = fs.createWriteStream('./a.log',{
+    // 添加到文件最后
+    'flags':'a'
+});
+
+const r = repl.start({
+    // 去除 提示符
+    prompt:'',
+    // 当前进程命令行的输入
+    input: process.stdin,
+    // 输出到文件中 
+    output: output,
+    eval: myEval, 
+    writer: myWriter ,
+});
+//定义上下文中的  m 为 msg的值
+Object.defineProperty(r.context,'m',{
+    configurable:false,
+    enumerable:true, 
+    value:msg
+})
+// 自定义的解析器
+function myEval(code, context, filename, callback) {
+  callback(null, code);
+}
+// 自定义的写入器
+function myWriter(output) {
+  return output;
+}

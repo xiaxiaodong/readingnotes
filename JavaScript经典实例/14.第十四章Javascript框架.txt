@@ -1,0 +1,37 @@
+第十四章 JavaScript框架
+
+14.1 使用Express-Generator生成一个Express站点
+    
+    安装所需组件:
+        npm install express-generator -g
+    生成项目文件:
+        express --css stylus tada
+    进入新建的文件夹(tad)内执行
+        npm install
+    运行express执行
+        npm start
+    浏览器访问
+        http://localhost:3000/ 可以看到效果
+        
+    Jade模板
+        模板的目的就是提供展示数据的结构  类似的还有EJS
+    
+    Stylus
+        css预处理器,编写css而又避免其特别冗长的方法 类似还有 less,sass
+        
+        
+    express获取参数有三种方法：官网实例：  
+  
+        Checks route params (req.params), ex: /user/:id  
+        Checks query string params (req.query), ex: ?id=12  
+        Checks urlencoded body params (req.body), ex: id=  
+14.2 将一个生成的Express站点转换为一个基本的MVP app
+    
+    
+    
+14.3 选择一个SPA框架:结构TodoMVC
+    
+14.4 使用OAuth框架
+    
+14.5 用Web组件扩展可能性
+    

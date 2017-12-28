@@ -1,0 +1,19 @@
+利用npm link 指令
+
+如果想在命令行中执行 hello.js ，可以将 hello.js 的路径加入环境变量 PATH。
+
+另一种更好的做法，是在当前目录下新建 package.json ，写入下面的内容。
+
+package.json:
+
+    {
+      "name": "hello",
+      "bin": {
+        命令   : 执行的脚本(相对路径)
+        "hello": "hello"
+      }
+    }
+
+然后执行 npm link 命令
+
+删除命令为 npm unlink
